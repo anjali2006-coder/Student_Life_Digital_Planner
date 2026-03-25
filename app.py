@@ -1,6 +1,7 @@
 #backend
 #web framework = flask
 from flask import Flask, render_template, request, redirect, session
+from werkzeug.security import generate_password_hash, check_password_hash
 #sqlite3 for database
 import sqlite3
 
@@ -58,23 +59,26 @@ def init_db():
 
 init_db()
 #API FOR user registeration or sign_IN
-@app.route("/register", method=["GET","POST"])
+@app.route("/register", methods=["GET","POST"])
 def register():
 
-   if register.method =='POST':
-       username = request.form["usrename"]
-       password = request.form["password"]
-       conn = get_db()
+   if request.method =='POST':
+        username = request.form["username"]
+        password = generate_password_hash(request.form["password"])
+        conn = get_db()
        #new user
-       conn.execute(
-           "INSERT INTO users(username, password) VALUES(?,?)",(username, password)
-       )
-
-       conn.commit()
-       conn.close()
+        try:
+            conn.execute(
+                "INSERT INTO users(username, password) VALUES(?,?)",(username, password)
+            )
+            conn.commit()
+        except:
+           return "Username already exists!....."
+        finally:
+            conn.close()
 
         #login to enter
-       return redirect("/login")
+        return redirect("/login")
    return render_template("register.html")
 
 #api name = login method =get/post
@@ -87,13 +91,16 @@ def login():
         conn = get_db()
         user = conn.execute(
             "SELECT * FROM users WHERE username =? AND password =?",(username,password)
-        ).fetchall()
+        ).fetchone()
 
         conn.close()
 
-        if user:
+        if user and check_password_hash(user["password"],password):
             session["user_id"] = user["id"]
             return redirect("/")
+        else:
+            return "Invalid credentials"
+        
     return render_template("login.html")
 
 #api name logout 
@@ -113,15 +120,17 @@ def dashboard():
 
     total_tasks  = conn.execute(
         "SELECT COUNT(*) FROM tasks WHERE user_id=?",(user_id,)
-    ).fetchall()[0]
+    ).fetchall()["count"]
 
     notes = conn.execute(
         "SELECT COUNT(*) FROM notes WHERE user_id=?",(user_id,)
-    ).fetchall()[0]
+    ).fetchall()["count"]
 
     exams = conn.execute(
         "SELECT COUNT(*) FROM exams WHER user_id=?",(user_id,)
-    ).fetchall()[0]
+    ).fetchall()["count"]
+
+    conn.close()
 
     return render_template(
         "dashboard.html",
@@ -159,3 +168,60 @@ def add_task():
     conn.close()
 
     return redirect("/tasks")
+# notes api
+@app.route('/notes')
+def notes():
+    if "user_id" not in session:
+        return redirect('/login')
+    
+    conn = get_db()
+    notes = conn.execute(
+        "SELECT* FROM notes where user_id=?", (session["user_id"],)
+    ).fetchall()
+    conn.close()
+
+    return render_template("notes.html",notes=notes)
+
+@app.route('/add_note', methods=["POST"])
+def add_note():
+    subject = request.form["subject"]
+    content = request.form["content"]
+
+    conn=get_db()
+    conn.execute(
+        "INSERT INTO notes(user_id, subject, content) VALUES(?, ?, ?)",
+        (session["user_id"], subject, content)
+    )
+    conn.commit()
+    conn.close()
+
+@app.route('/exams')
+def exams():
+    if "user_id" not in session:
+        return redirect('/login')
+    
+    conn = get_db()
+    notes = conn.execute(
+        "SELECT * FROM exams WHERE user_id=?",(session["user_id"],)
+    ).fetchall()
+    conn.close()
+
+    return render_template("exams.html", exams=exams)
+
+@app.route('/add_exam')
+def add_exam():
+    subject = request.form["subject"]
+    exam_date = request.form["exam"]
+    description = request.form["description"]
+
+    conn= get_db()
+    conn.execute(
+        "INSERT INTO exams(user_id, subject, exam_date, description) VALUES(?, ?, ?, ?)",(session["user_id"], subject, exam_date, description)
+    )
+    conn.commit()
+    conn.close()
+
+    return redirect("/exams")
+
+if __name__ == "__main__":
+    app.run(debug=True)
