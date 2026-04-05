@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Planner</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300..900&display=swap');
+    body,html{
+          font-family: "Sansita Swashed", system-ui;
+    }
+</style>
+</head>
+<body class="w-full h-full bg-black">
+    <div class="w-screen h-screen flex flex-col text-white text-[18px] gap-4 overflow-x-hidden p-4 ">
+        <nav class="flex flex-row justify-between items-center ">
+            <h1 class="text-2xl text-violet-400">StudentLife-DigitalPlanner</h1>
+            <ul class="flex flex-row gap-5">
+                <li href="#home">Home</li>
+                <li>features</li>
+                <li>Contact</li>
+            </ul>
+            <div class=" flex flex-row gap-4 items-center">
+            <a href="/register">Join Now</a>
+            <a href="/login" class="bg-violet-500 px-4 py-2 rounded-3xl hover:bg-violet-800">Login -></a>
+            </div>
+        </nav>
+        <section id="home" class="pt-10 h-full justify-center text-center gap-10">
+            <div class="flex flex-col gap-4 items-center">
+                <h1 class="text-5xl">Organize your Life.</h1>
+                <p class="text-xl">Track tasks, manage time and never miss your deadlines again.</p>
+                 <a href="/register" class="w-[15%] bg-violet-500 px-3 py-4 rounded-3xl hover:bg-violet-800 border border-2 border-gray-400">Get Started</a>
+            </div>
+           <div class="h-[200px] w-[50px] bg-violet-500">
+
+           </div>
+        </section>
+         <!-- Features -->
+    <section id="features" class="flex flex-col items-center gap-10 bg-violet-400 py-2">
+        <h2 class="text-5xl">Features</h2>
+        <div class="cards flex gap-10">
+
+            <div class=" flex flex-col bg-gray-800 px-2 py-4 rounded-xl border border-2 ">
+                <h3>📚 Study Planner</h3>
+                <p>Plan assignments and exams easily.</p>
+            </div>
+
+            <div class="flex flex-col bg-gray-800 px-2 py-4 rounded-xl border border-2 ">
+                <h3>⏰ Time Management</h3>
+                <p>Organize your daily schedule.</p>
+            </div>
+
+            <div class="flex flex-col bg-gray-800 px-2 py-4 rounded-xl border border-2 ">
+                <h3>✅ Task Tracker</h3>
+                <p>Track tasks with priority levels.</p>
+            </div>
+
+            <div class="flex flex-col bg-gray-800 px-2 py-4 rounded-xl border border-2 ">
+                <h3>📈 Progress</h3>
+                <p>Visualize your productivity.</p>
+            </div>
+
+        </div>
+    </section>
+
+    </div>
+</body>
+</html>

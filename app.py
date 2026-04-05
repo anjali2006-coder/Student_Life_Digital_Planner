@@ -58,6 +58,11 @@ def init_db():
     conn.close()
 
 init_db()
+
+@app.route('/')
+def landing():
+    return render_template("landing_page.html")
+
 #API FOR user registeration or sign_IN
 @app.route("/register", methods=["GET","POST"])
 def register():
