@@ -1,35 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student planner</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>@import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300..900&display=swap');
-    body,html{
-          font-family: "Sansita Swashed", system-ui;
-    }
-    </style>
+    <title>Register</title>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+        body,html{
+             font-family: "Funnel Sans", sans-serif;
+        }
+        </style>
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="w-full h-full bg-black">
-    <div class="text-white w-screen h-screen flex items-center justify-center">
-        <div class="w-[30%] py-4 border-2 border-violet-400 rounded-xl bg-gray-800 items-center flex flex-col gap-4 ">
-             <h2 class="text-3xl text-center ">Start Planning Today</h2>
-            <p class="text-center">Boost your productivity and stay organized.</p>
-            <h2>Login</h2>
-        <form action="" method="get" class=" flex  flex-col gap-4 ">
-        <label for="username">User name: </label>
-        <input type="text" class="bg-transparent border rounded-xl py-2 px-2 ">
-        <label for="username">Password: </label>
-        <input type="password" class="bg-transparent border rounded-xl py-2 px-2">
-        <button class="bg-violet-500 px-3 py-4 rounded-3xl hover:bg-violet-800 border border-2 border-gray-400">Login</button>
-        </form>
-        <div class="flex gap-2">
-        <h2>Do not have an accound?</h2>
-        <a href="/register" class="text-violet-400">Sign up</a>
-        </div>
-        </div>
-        </div>
+<body>
+    <div class="w-screen h-screen flex p-4 items-center justify-center bg-white">
+        <div class="w-140 h-100 flex flex-col gap-10 border border-blue-500 rounded-md p-10">
+    <h2 class="text-2xl text-center">Login</h2>
+    <form method="POST" class="flex flex-col ">
+        <input type="text" name="username" placeholder="Username" required class="w-full bg-zinc-200 h-10 p-2 rounded-md"><br>
+        <input type="password" name="password" placeholder="Password" class="w-full bg-zinc-200 h-10 p-2 rounded-md"required><br>
+         <button href="/register"  class=" text-xl bg-blue-500 px-5 py-3 mt-2 text-white rounded-md hover:bg-blue-700">
+                    Login
+                 </button>
+    </form>
     </div>
-</body> 
+    </div>
+    </div>
+</body>
 </html>

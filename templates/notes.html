@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notes</title>
+</head>
+<body>
+    <h2>Notes</h2>
+
+    <form method="POST" action="/add_note">
+        <input type="text" name="subject" placeholder="Subject" required><br>
+        <textarea name="content" placeholder="Write note..."></textarea><br>
+        <button type="submit">Add Note</button>
+    </form>
+
+    <ul>
+        {% for note in notes %}
+            <li><b>{{ note.subject }}</b>: {{ note.content }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">Back</a>
+</body>
+</html>

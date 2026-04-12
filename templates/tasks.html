@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tasks</title>
+</head>
+<body>
+    <h2>Your Tasks</h2>
+
+    <form method="POST" action="/add_tasks">
+        <input type="text" name="title" placeholder="Task Title" required>
+        <input type="date" name="deadline" required>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.title }} - {{ task.deadline }} - {{ task.status }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">Back</a>
+</body>
+</html>

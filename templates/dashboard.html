@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
 </head>
 <body>
-    <h1>My dashboard</h1>
+    <h1>Dashboard</h1>
+    <p>Total Tasks: {{ total_tasks }}</p>
+    <p>Notes: {{ notes }}</p>
+    <p>Exams: {{ exams }}</p>
+
+    <a href="/tasks">Tasks</a> |
+    <a href="/notes">Notes</a> |
+    <a href="/exams">Exams</a> |
+    <a href="/logout">Logout</a>
 </body>
 </html>

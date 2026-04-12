@@ -89,23 +89,23 @@ def register():
 #api name = login method =get/post
 @app.route("/login", methods=["GET","POST"])
 def login():
-    if request.method =="POST":
+    if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
 
         conn = get_db()
         user = conn.execute(
-            "SELECT * FROM users WHERE username =? AND password =?",(username,password)
+            "SELECT * FROM users WHERE username = ?", (username,)
         ).fetchone()
-
         conn.close()
 
-        if user and check_password_hash(user["password"],password):
+        # Check user exists AND password matches hash
+        if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
             return redirect("/")
         else:
             return "Invalid credentials"
-        
+
     return render_template("login.html")
 
 #api name logout 
@@ -115,7 +115,7 @@ def logout():
     return redirect("/login")
 
 #user dashboard
-@app.route("/")
+@app.route("/home")
 def dashboard():
     if "user_id" not in session:
         return redirect("/login")
@@ -124,22 +124,22 @@ def dashboard():
     conn = get_db()
 
     total_tasks  = conn.execute(
-        "SELECT COUNT(*) FROM tasks WHERE user_id=?",(user_id,)
-    ).fetchall()["count"]
+        "SELECT COUNT(*) as count FROM tasks WHERE user_id=?",(user_id,)
+    ).fetchone()["count"]
 
     notes = conn.execute(
-        "SELECT COUNT(*) FROM notes WHERE user_id=?",(user_id,)
-    ).fetchall()["count"]
+        "SELECT COUNT(*) as count FROM notes WHERE user_id=?",(user_id,)
+    ).fetchone()["count"]
 
     exams = conn.execute(
-        "SELECT COUNT(*) FROM exams WHER user_id=?",(user_id,)
-    ).fetchall()["count"]
+        "SELECT COUNT(*) as count FROM exams WHERE user_id=?",(user_id,)
+    ).fetchone()["count"]
 
     conn.close()
 
     return render_template(
         "dashboard.html",
-        total_taks = total_tasks,
+        total_tasks = total_tasks,
         notes = notes,
         exams = exams
     )
@@ -151,7 +151,7 @@ def tasks():
     
     conn = get_db()
     tasks = conn.execute(
-        "SELECT * FROM WHERE user_id=?",(session["user_id"],)
+        "SELECT * FROM tasks WHERE user_id=?",(session["user_id"],)
     ).fetchall()
     conn.close()
 
@@ -166,7 +166,7 @@ def add_task():
     conn = get_db()
 
     conn.execute(
-        "INSERT INTO tasks(user_id, deadline, status) VALUES(?,?,?,?)",(session["user_id"],title,deadline,"Pending")
+        "INSERT INTO tasks(user_id, title, deadline, status) VALUES(?,?,?,?)",(session["user_id"],title,deadline,"Pending")
     )
 
     conn.commit()
@@ -199,6 +199,7 @@ def add_note():
     )
     conn.commit()
     conn.close()
+    return redirect('/notes')
 
 @app.route('/exams')
 def exams():
@@ -206,14 +207,14 @@ def exams():
         return redirect('/login')
     
     conn = get_db()
-    notes = conn.execute(
+    exams = conn.execute(
         "SELECT * FROM exams WHERE user_id=?",(session["user_id"],)
     ).fetchall()
     conn.close()
 
     return render_template("exams.html", exams=exams)
 
-@app.route('/add_exam')
+@app.route('/add_exam', methods=["POST"])
 def add_exam():
     subject = request.form["subject"]
     exam_date = request.form["exam"]

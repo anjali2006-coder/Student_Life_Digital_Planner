@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exams</title>
+</head>
+<body>
+    <h2>Exams</h2>
+
+    <form method="POST" action="/add_exam">
+        <input type="text" name="subject" placeholder="Subject" required>
+        <input type="date" name="exam" required>
+        <textarea name="description" placeholder="Description"></textarea>
+        <button type="submit">Add Exam</button>
+    </form>
+
+    <ul>
+        {% for exam in exams %}
+            <li>{{ exam.subject }} - {{ exam.exam_date }} - {{ exam.description }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">Back</a>
+</body>
+</html>

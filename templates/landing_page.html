@@ -1,68 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Planner</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>@import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300..900&display=swap');
-    body,html{
-          font-family: "Sansita Swashed", system-ui;
-    }
-</style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+        body,html{
+             font-family: "Funnel Sans", sans-serif;
+        }
+        </style>
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="w-full h-full bg-black">
-    <div class="w-screen h-screen flex flex-col text-white text-[18px] gap-4 overflow-x-hidden p-4 ">
-        <nav class="flex flex-row justify-between items-center ">
-            <h1 class="text-2xl text-violet-400">StudentLife-DigitalPlanner</h1>
-            <ul class="flex flex-row gap-5">
-                <li href="#home">Home</li>
-                <li>features</li>
-                <li>Contact</li>
-            </ul>
-            <div class=" flex flex-row gap-4 items-center">
-            <a href="/register">Join Now</a>
-            <a href="/login" class="bg-violet-500 px-4 py-2 rounded-3xl hover:bg-violet-800">Login -></a>
+<body>
+    <div class="h-full w-full flex flex-col text-zinc-800  overflow-hidden gap-10">
+        <nav class="flex flex-row justify-evenly items-center p-4">
+            <div>
+                <h1 class="text-blue-700 text-2xl text-bold">Student Planner</h1>
+            </div>
+            <div class="flex flex-row gap-4 items-center text-[18px]">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="/login" >Login</a>
+            <a href="/register" class="bg-blue-500 px-4 py-2 text-white rounded-md hover:bg-blue-700">Register</a>
             </div>
         </nav>
-        <section id="home" class="pt-10 h-full justify-center text-center gap-10">
-            <div class="flex flex-col gap-4 items-center">
-                <h1 class="text-5xl">Organize your Life.</h1>
-                <p class="text-xl">Track tasks, manage time and never miss your deadlines again.</p>
-                 <a href="/register" class="w-[15%] bg-violet-500 px-3 py-4 rounded-3xl hover:bg-violet-800 border border-2 border-gray-400">Get Started</a>
-            </div>
-           <div class="h-[200px] w-[50px] bg-violet-500">
-
-           </div>
+    <main>
+        <section id="home" class="w-screen flex flex-row items-center justify-evenly p-4">
+            <div class="text-center">
+            <h1 class="text-5xl text-extrabold">Welcome to, <br>
+                 <span class="text-blue-700">Student Life Digital Planner</span></h1>
+                 <p class="text-[19px]">
+                    Make your life simple and easy with this digital planner.  
+                 </p>
+                 <button href="/register"  class=" text-xl bg-blue-500 px-5 py-3 mt-2 text-white rounded-md hover:bg-blue-700">
+                    Register
+                 </button>
+                 </div>
+                 <img class=" h-110 w-150 object-cover " src="/static/home-section.png" alt="">
         </section>
-         <!-- Features -->
-    <section id="features" class="flex flex-col items-center gap-10 bg-violet-400 py-2">
-        <h2 class="text-5xl">Features</h2>
-        <div class="cards flex gap-10">
-
-            <div class=" flex flex-col bg-gray-800 px-2 py-4 rounded-xl border border-2 ">
-                <h3>📚 Study Planner</h3>
-                <p>Plan assignments and exams easily.</p>
+        <section id="about" class="w-full bg-blue-500 py-2 px-10 text-white">
+            <h1 class="text-5xl text-center">About</h1>
+            <div class="flex flex-row justify-between p-8 items-center">
+            <img class=" h-110 w-150 object-cover " src="/static/about-section.png" alt="">
+            <div class="text-justify">
+            <p class="text-xl">Student life digital planner, your all-in-one solution for managing academic and personal tasks efficicently. Designed specially for students, this platform helps you stay organized, focused and in control your daily schedule.</p>
+            <p class="text-xl">In today's fast-paced student life, keeping track of assignments, deadlines, exams, and personal goals can be overwhelming. Our digital planner simplifies this by providing an easy-to-use interface where you can manage everything in one place.</p>
             </div>
-
-            <div class="flex flex-col bg-gray-800 px-2 py-4 rounded-xl border border-2 ">
-                <h3>⏰ Time Management</h3>
-                <p>Organize your daily schedule.</p>
             </div>
-
-            <div class="flex flex-col bg-gray-800 px-2 py-4 rounded-xl border border-2 ">
-                <h3>✅ Task Tracker</h3>
-                <p>Track tasks with priority levels.</p>
+        </section>
+        <section id="features" class="w-full p-4 items-center">
+            <h1 class="text-5xl text-center">Features</h1>
+            <div class="grid grid-cols-2 p-4 justify-items-center gap-y-8  gap-x-10">
+                <div class="flex flex-col h-40 w-80 p-4 border border-1 rounded-sm justify-self-end shadow-md">
+                    <h1 class="text-blue-700 text-xl text-extrabold ">To-do-list</h1>
+                    <p>You can create task list.</p>
+                </div>
+                <div class="flex flex-col h-40 w-80 p-4 border border-1 rounded-sm justify-self-start shadow-md">
+                    <h1 class="text-blue-700 text-xl text-extrabold ">Notes</h1>
+                    <p>You can create notes.</p>
+                </div>
+               <div class="flex flex-col h-40 w-80 p-4 border border-1 rounded-sm justify-self-end shadow-md">
+                    <h1 class="text-blue-700 text-xl text-extrabold ">Exams Scheduling</h1>
+                    <p>You can create task list.</p>
+                </div>
+                 <div class="flex flex-col h-40 w-80 p-4 border border-1 rounded-sm justify-self-start shadow-md">
+                     <h1 class="text-blue-700 text-xl text-extrabold ">User login</h1>
+                    <p>You can create task list.</p>
+                </div>
             </div>
-
-            <div class="flex flex-col bg-gray-800 px-2 py-4 rounded-xl border border-2 ">
-                <h3>📈 Progress</h3>
-                <p>Visualize your productivity.</p>
-            </div>
-
-        </div>
-    </section>
-
+        </section>
+    </main>
+    
     </div>
 </body>
 </html>
