@@ -2,16 +2,46 @@
 <html>
 <head>
     <title>Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+        body,html{
+             font-family: "Funnel Sans", sans-serif;
+        }
+        </style>
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <p>Total Tasks: {{ total_tasks }}</p>
-    <p>Notes: {{ notes }}</p>
-    <p>Exams: {{ exams }}</p>
+    <div class="h-screen w-full bg-black text-white p-4 grid grid-cols-5 gap-10">
+        <div class=" rounded-3xl bg-zinc-700 p-4 flex flex-col gap-10">
+        <h1 class="text-2xl">Menu</h1>
+        <div class="flex flex-col gap-8 ">
+        <a href="/tasks" class="p-3 rounded-xl text-center bg-zinc-600 hover:bg-blue-500">Tasks</a> 
+        <a href="/exams" class="p-3 rounded-xl text-center bg-zinc-600 hover:bg-blue-500">Exams</a> 
+        <a href="/notes" class="p-3 rounded-xl text-center bg-zinc-600 hover:bg-blue-500">Notes</a> 
+        <a href="/logout" class="p-3 rounded-xl text-center bg-zinc-600 hover:bg-blue-500">Logout</a>
+        </div>
+        </div>
+    <div class=" rounded-lg col-span-4 p-4 flex flex-col gap-5">
+    <h1 class="text-blue-500 text-5xl text-extrabold">Dashboard</h1>
+    <div class="bg-zinc-700 rounded-xl py-2 flex flex-row justify-evenly items-center">
+    <h2 class="text-4xl">Welcome, {{ username }} 👋</h2>
+    <img src="/static/dashboard.png" alt="" class="h-50 w-50 p-0">
+    </div>
+    <div class="bg-zinc-700 rounded-xl p-4">
+        <h1 class="text-blue-500 text-xl">Tasks</h1>
+        <p>Total Tasks: {{ total_tasks }}</p>
+        <p>Completed Tasks: {{completed_tasks}}</p>
+        <p>Pending Tasks: {{pending_tasks}}</p>
+    </div>
+    <div class="bg-zinc-700 rounded-xl p-4">
+        <h1>Tasks</h1>
+        <p>Total Tasks: {{ total_tasks }}</p>
+        <p>Completed Tasks: {{completed_tasks}}</p>
+        <p>Pending Tasks: {{pending_tasks}}</p>
+    </div>
+    </div>
 
-    <a href="/tasks">Tasks</a> |
-    <a href="/notes">Notes</a> |
-    <a href="/exams">Exams</a> |
-    <a href="/logout">Logout</a>
+    
+    </div>
 </body>
 </html>

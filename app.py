@@ -102,7 +102,8 @@ def login():
         # Check user exists AND password matches hash
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
-            return redirect("/")
+            session["username"] = user["username"]
+            return redirect("/home")
         else:
             return "Invalid credentials"
 
@@ -120,6 +121,8 @@ def dashboard():
     if "user_id" not in session:
         return redirect("/login")
     user_id = session["user_id"]
+    username = session["username"]
+
 
     conn = get_db()
 
@@ -141,7 +144,8 @@ def dashboard():
         "dashboard.html",
         total_tasks = total_tasks,
         notes = notes,
-        exams = exams
+        exams = exams,
+        username = username
     )
 #see and create or add task
 @app.route("/tasks")
