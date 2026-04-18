@@ -275,7 +275,7 @@ def exams():
 @app.route('/add_exam', methods=["POST"])
 def add_exam():
     subject = request.form["subject"]
-    exam_date = request.form["exam"]
+    exam_date = request.form["exam_date"]
     description = request.form["description"]
 
     conn= get_db()
