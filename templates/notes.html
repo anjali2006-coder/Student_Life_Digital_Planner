@@ -24,12 +24,12 @@
         <h2 class="text-4xl text-blue-500">Your Notes</h2>
     <ul class="flex flex-row flex-wrap gap-10">
         {% for note in notes %}
-            <div class="bg-zinc-700 py-4 px-5 rounded-xl flex flex-col gap-4">
+            <div class="bg-zinc-700 py-4 px-5 rounded-xl flex flex-col flex-wrap gap-4">
                 <h1 class="text-xl text-pink-400">{{ note.subject }}</h1>
-                <p>{{ note.content }}</p> 
+                <p class="break-all">{{ note.content }}</p> 
                 <div>
                     <a href="" class="text-blue-500 text-[18px]">Edit</a> |
-                    <a href="" class="text-blue-500 text-[18px]">Delete</a>
+                    <a href="/delete_note/{{ note.id }}" class="text-blue-500 text-[18px]">Delete</a>
                 </div>
             </div>
         {% endfor %}

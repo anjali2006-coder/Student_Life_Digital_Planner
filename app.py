@@ -127,24 +127,25 @@ def dashboard():
     conn = get_db()
 
     total_tasks  = conn.execute(
-        "SELECT COUNT(*) as count FROM tasks WHERE user_id=?",(user_id,)
+        "SELECT COUNT(*) as count FROM tasks WHERE user_id=? AND deadline=date('now')",(user_id,)
     ).fetchone()["count"]
 
-    notes = conn.execute(
-        "SELECT COUNT(*) as count FROM notes WHERE user_id=?",(user_id,)
+    completed_tasks = conn.execute(
+        "SELECT COUNT(*) as count FROM tasks WHERE user_id=? AND deadline=date('now') AND status='Completed'",
+        (user_id,)
     ).fetchone()["count"]
 
-    exams = conn.execute(
-        "SELECT COUNT(*) as count FROM exams WHERE user_id=?",(user_id,)
-    ).fetchone()["count"]
 
     conn.close()
+    progress = 0
+    if total_tasks > 0:
+        progress = int((completed_tasks / total_tasks) * 100)
 
     return render_template(
         "dashboard.html",
         total_tasks = total_tasks,
-        notes = notes,
-        exams = exams,
+        completed_tasks = completed_tasks,
+        progress = progress,
         username = username
     )
 #see and create or add task
@@ -155,28 +156,68 @@ def tasks():
     
     conn = get_db()
     tasks = conn.execute(
-        "SELECT * FROM tasks WHERE user_id=?",(session["user_id"],)
+        "SELECT * FROM tasks WHERE user_id=? AND deadline=date('now')",
+        (session["user_id"],)
     ).fetchall()
+    total_tasks  = conn.execute(
+        "SELECT COUNT(*) as count FROM tasks WHERE user_id=? AND deadline=date('now')",(session["user_id"],)
+    ).fetchone()["count"]
+
+    completed_tasks = conn.execute(
+        "SELECT COUNT(*) as count FROM tasks WHERE user_id=? AND deadline=date('now') AND status='Completed'",
+        (session["user_id"],)
+    ).fetchone()["count"]
+
     conn.close()
 
-    return render_template("tasks.html",tasks=tasks)
+    return render_template(
+        "tasks.html",
+        tasks=tasks,
+        total_tasks=total_tasks,
+        completed_tasks = completed_tasks
+        )
 # add/create tasks  method = post
 @app.route("/add_tasks", methods=["POST"])
 def add_task():
 
     title = request.form["title"]
-    deadline = request.form["deadline"]
 
     conn = get_db()
 
     conn.execute(
-        "INSERT INTO tasks(user_id, title, deadline, status) VALUES(?,?,?,?)",(session["user_id"],title,deadline,"Pending")
+        "INSERT INTO tasks(user_id, title, deadline, status) VALUES(?,?,date('now'),'Pending')",
+        (session["user_id"], title)
     )
 
     conn.commit()
     conn.close()
 
     return redirect("/tasks")
+#edit route 
+@app.route("/undo_task/<int:id>")
+def undo_task(id):
+    conn = get_db()
+    conn.execute(
+        "UPDATE tasks SET status='Pending' WHERE id=?",
+        (id,)
+    )
+    conn.commit()
+    conn.close()
+
+    return redirect("/tasks")
+#change task status
+@app.route("/complete_task/<int:id>")
+def complete_task(id):
+    conn = get_db()
+    conn.execute(
+        "UPDATE tasks SET status='Completed' WHERE id=? AND user_id=?",
+        (id, session["user_id"])
+    )
+    conn.commit()
+    conn.close()
+
+    return redirect("/tasks")
+
 # notes api
 @app.route('/notes')
 def notes():
@@ -205,6 +246,19 @@ def add_note():
     conn.close()
     return redirect('/notes')
 
+#delete route
+@app.route("/delete_note/<int:id>")
+def delete_note(id):
+    conn=get_db()
+    conn.execute(
+        "DELETE FROM notes where id=? AND user_id=?",
+        (id, session["user_id"])
+    )
+    conn.commit()
+    conn.close()
+    return redirect("/notes")
+
+
 @app.route('/exams')
 def exams():
     if "user_id" not in session:
@@ -232,6 +286,45 @@ def add_exam():
     conn.close()
 
     return redirect("/exams")
+#delete route 
+@app.route("/delete_exam/<int:id>")
+def delete_exam(id):
+    conn =get_db()
+    conn.execute(
+        "DELETE FROM exams where id=? AND user_id=?",
+        (id, session["user_id"])
+    )
+    conn.commit()
+    conn.close()
+    return redirect("/exams")
+
+#edit route
+@app.route("/edit_exam/<int:id>", methods=["GET", "POST"])
+def edit_exam(id):
+    conn = get_db()
+
+    if request.method == "POST":
+        subject = request.form["subject"]
+        exam_date = request.form["exam_date"]
+        description = request.form["description"]
+
+        conn.execute(
+            "UPDATE exams SET subject=?, exam_date=?, description=? WHERE id=? AND user_id=?",
+            (subject, exam_date, description, id, session["user_id"])
+        )
+        conn.commit()
+        conn.close()
+
+        return redirect("/exams")
+
+    exam = conn.execute(
+        "SELECT * FROM exams WHERE id=? AND user_id=?",
+        (id, session["user_id"])
+    ).fetchone()
+    conn.close()
+
+    return render_template("edit_exam.html", exam=exam)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

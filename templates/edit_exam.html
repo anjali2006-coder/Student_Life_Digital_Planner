@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>edit_exam</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+        body,html{
+             font-family: "Funnel Sans", sans-serif;
+        }
+        </style>
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="h-screen w-screen flex  bg-black text-white p-7 items-center justify-center ">
+        <div class="w-[50%]  bg-zinc-800 flex flex-col p-7 gap-4 rounded-3xl">
+            <h1 class="text-2xl text-blue-500 text-center">Add</h1>
+        <form method="POST" class="bg-zinc-600 flex flex-col gap-10 p-4 rounded-xl">
+        <input type="text" name="subject" class="border py-3 px-2 outline-none rounded-xl" placeholder="Subject/Course name" required>
+          <input type="date" name="exam_date" class="border py-3 px-2 outline-none rounded-xl" placeholder="Exam date" required>
+        <textarea name="description" class="border py-3 px-2 outline-none rounded-xl" placeholder="Description" required></textarea>
+        <button type="submit" class="bg-blue-500 rounded-xl py-3">Add</button>
+    </form>
+</div>
+</body>
+</html>
