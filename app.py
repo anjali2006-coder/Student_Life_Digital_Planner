@@ -78,7 +78,12 @@ def register():
             )
             conn.commit()
         except:
-           return "Username already exists!....."
+                return """
+                <script>
+                    alert("Username already exists!");
+                    window.location.href = "/register";
+                </script>
+                """
         finally:
             conn.close()
 
